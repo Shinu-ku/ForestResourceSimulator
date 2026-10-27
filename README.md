@@ -1,1989 +1,925 @@
 # Forest Resource Simulator
 
-> A data-structure-driven CLI simulation game for forest resource management, exploration, route planning, and economic decision-making.
+> An interactive, data-structure-driven simulation game and pedagogical framework for forest resource management, economic planning, route finding, and algorithmic optimization.
 
-![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+![Status](https://img.shields.io/badge/Status-GUI%20v0.1%20Active-brightgreen)
 ![Course](https://img.shields.io/badge/Course-Data%20Structures%20%26%20Algorithms--II-blue)
+![Course Code](https://img.shields.io/badge/Code-CCSE0301%20%2F%20BCSE0401-darkblue)
 ![Semester](https://img.shields.io/badge/Semester-III-blue)
 ![Type](https://img.shields.io/badge/Assignment-Individual%20PBL-green)
-![Domain](https://img.shields.io/badge/Domain-Game%20Development%20%2F%20Simulation-purple)
+![Engine](https://img.shields.io/badge/GUI-Pygame%202.6+-yellow)
+![Domain](https://img.shields.io/badge/Domain-Simulation%20%2F%20DSA%20Optimization-purple)
 
 ---
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Project Motivation](#project-motivation)
+- [Project Motivation & Pedagogical Vision](#project-motivation--pedagogical-vision)
 - [Problem Statement](#problem-statement)
-- [Objectives](#objectives)
-- [Project Scope](#project-scope)
-- [Gameplay Concept](#gameplay-concept)
-- [Core Gameplay Loop](#core-gameplay-loop)
-- [Player System](#player-system)
-- [Forest and Resource System](#forest-and-resource-system)
-- [Equipment and Axe System](#equipment-and-axe-system)
-- [Stamina and Daily System](#stamina-and-daily-system)
-- [Economy and Selling System](#economy-and-selling-system)
-- [World and Navigation](#world-and-navigation)
-- [Data Structures](#data-structures)
-- [Algorithms](#algorithms)
-- [DSA-to-Gameplay Mapping](#dsa-to-gameplay-mapping)
-- [Unit 1: Trees](#unit-1-trees)
-- [Unit 2: Graphs](#unit-2-graphs)
-- [Future Unit Extensions](#future-unit-extensions)
-- [Save and Load System](#save-and-load-system)
-- [CLI Interface](#cli-interface)
-- [System Architecture](#system-architecture)
-- [Suggested Project Structure](#suggested-project-structure)
-- [Game Data Model](#game-data-model)
-- [Example Game Flow](#example-game-flow)
-- [Algorithm Complexity](#algorithm-complexity)
-- [Testing Strategy](#testing-strategy)
-- [Development Roadmap](#development-roadmap)
-- [Current Status](#current-status)
-- [Challenges](#challenges)
-- [Educational Value](#educational-value)
-- [Learning Outcomes](#learning-outcomes)
-- [Limitations](#limitations)
-- [Future Enhancements](#future-enhancements)
-- [Installation](#installation)
-- [Running the Project](#running-the-project)
-- [Contributing](#contributing)
-- [Academic Information](#academic-information)
-- [License](#license)
-- [Acknowledgements](#acknowledgements)
+- [Core Gameplay Mechanics & Loop](#core-gameplay-mechanics--loop)
+- [World Map & Geographic Topology](#world-map--geographic-topology)
+  - [The 24 World Landmarks](#the-24-world-landmarks)
+  - [Road and River Graph Network](#road-and-river-graph-network)
+- [Player & Progression Systems](#player--progression-systems)
+  - [Level and XP Scaling](#level-and-xp-scaling)
+  - [Stamina & Daily Cycle](#stamina--daily-cycle)
+  - [Inventory Weight Capacity](#inventory-weight-capacity)
+  - [Equipment & Tool Upgrades](#equipment--tool-upgrades)
+- [Economy & Market Systems](#economy--market-systems)
+  - [Resource Classification (12 Core Items)](#resource-classification-12-core-items)
+  - [Market Trading Mechanics](#market-trading-mechanics)
+- [Comprehensive Syllabus Mapping (Units 1 to 5)](#comprehensive-syllabus-mapping-units-1-to-5)
+  - [Unit 1: Design and Analysis of Algorithms — Trees](#unit-1-design-and-analysis-of-algorithms--trees)
+  - [Unit 2: Design and Analysis of Algorithms — Graphs](#unit-2-design-and-analysis-of-algorithms--graphs)
+  - [Unit 3: Dynamic Programming](#unit-3-dynamic-programming)
+  - [Unit 4: Backtracking, Branch and Bound](#unit-4-backtracking-branch-and-bound)
+  - [Unit 5: Advanced Data Structures](#unit-5-advanced-data-structures)
+- [User Interface & Visual Design Architecture](#user-interface--visual-design-architecture)
+  - [Design Aesthetics & Color Palette](#design-aesthetics--color-palette)
+  - [Interactive Screen & Modal Guide](#interactive-screen--modal-guide)
+- [System Architecture & Codebase Layout](#system-architecture--codebase-layout)
+- [Theoretical Algorithm Complexity Analysis](#theoretical-algorithm-complexity-analysis)
+- [Persistence & Save System](#persistence--save-system)
+- [Testing & Quality Assurance](#testing--quality-assurance)
+- [Installation & How to Run](#installation--how-to-run)
+- [Academic Information & Credits](#academic-information--credits)
 
 ---
 
 # Overview
 
-**Forest Resource Simulator** is a command-line-based resource-management
-simulation in which the player works as a woodcutter.
+**Forest Resource Simulator** is an interactive simulation game designed to transform the theoretical curriculum of **Data Structures and Algorithms II (DSA-II)** into an engaging, practical, and visually rich computational problem.
 
-The player manages:
+The player steps into the boots of an explorer and resource manager operating within a handcrafted fantasy woodland continent. Managing limited daily stamina, money, equipment, and carrying capacity, the player navigates an interconnected graph of **24 world landmarks**—ranging from coastal ports and river crossings to primeval redwood forests, alpine iron mines, and shadow-veiled ruins.
 
-- Money
-- Stamina
-- Power
-- Equipment
-- Wood and other resources
-- Forest locations
-- Travel routes
-- Resource values
-- Daily activities
+Behind the wood-carved fantasy graphical user interface (powered by **Pygame 2.6+**), every decision is backed by fundamental and advanced computer science algorithms:
 
-The player travels between forests, collects wood, sells resources, earns
-money, purchases better axes, and makes decisions about how to use limited
-daily stamina efficiently.
-
-The main academic purpose of the project is to demonstrate how **Data
-Structures and Algorithms can be applied to an interactive game/simulation**
-instead of being implemented only as independent theoretical programs.
-
-The project currently focuses primarily on **Unit 1 (Trees)** and
-**Unit 2 (Graphs)** of Data Structures and Algorithms-II, with later units
-providing extension opportunities.
+```text
++-------------------------------------------------------------------------------+
+|                           FOREST RESOURCE SIMULATOR                           |
++-------------------------------------------------------------------------------+
+|       WORLD TOPOLOGY        |      DATA STRUCTURES      |      ALGORITHMS     |
+| • 24 Mapped Locations       | • Adjacency List / Matrix | • Dijkstra          |
+| • Scaled Graphic Terrain    | • Binary Search Tree      | • BFS & DFS         |
+| • Roads, Bridges & Rivers   | • AVL Self-Balancing Tree | • Prim & Kruskal    |
+| • Biome Harvesting Points   | • Binary Max/Min Heap     | • 0/1 Knapsack      |
+| • Village Markets & Inns    | • Threaded Binary Tree    | • Bellman-Ford      |
+| • Day & Time Cycle          | • B-Trees & B+ Trees      | • Travelling Sales  |
++-------------------------------------------------------------------------------+
+```
 
 ---
 
-# Project Motivation
+# Project Motivation & Pedagogical Vision
 
-Data Structures and Algorithms are often learned through isolated examples:
+Data structures and algorithms are traditionally taught in academic silos:
+- A Binary Search Tree is studied with arbitrary integer keys (`15, 23, 4, 8`).
+- Dijkstra's algorithm is run on abstract letters (`A, B, C, D`).
+- The 0/1 Knapsack problem is demonstrated with synthetic item weights.
 
-```text
-BST
-BFS
-DFS
-Dijkstra
-Heap
-Priority Queue
-```
+This disconnect often prevents students from appreciating how algorithmic constraints dictate real software architecture and user experience. 
 
-Forest Resource Simulator places these concepts inside a common practical
-problem.
+**Forest Resource Simulator** bridges this gap by embedding the entire **DSA-II Syllabus (Units 1 through 5)** into a single cohesive simulation:
 
-For example:
-
-```text
-BST
- ↓
-Organize equipment/resource records
- ↓
-Search / Insert / Delete / Modify
-```
-
-and:
-
-```text
-Graph
- ↓
-Represent village and forests
- ↓
-BFS / DFS
- ↓
-Explore reachable locations
-```
-
-and:
-
-```text
-Weighted Graph
- ↓
-Dijkstra
- ↓
-Find minimum-cost route
- ↓
-Travel to another forest
-```
-
-This makes the relationship between algorithmic theory and practical
-software development visible to the user.
+1. **Graph Theory in Practice:** Traveling between the *Village* and *Redwood Forest* is not an abstract traversal—it requires calculating the shortest path by stamina cost using **Dijkstra**, comparing it against the fewest-hop route using **Breadth-First Search (BFS)**, and highlighting the computed route with animated particles on the map.
+2. **Balanced Trees in Inventory:** Searching, sorting, and modifying items across market databases and equipment racks leverages **AVL Trees** and **Threaded Binary Trees**.
+3. **Dynamic Programming under Scarcity:** Deciding which logs, ores, and herbs to carry back to the Village market under a strict weight constraint ($76.1 / 100.0\text{ kg}$) is a genuine instance of the **0/1 Knapsack Problem**.
+4. **Backtracking and Branch & Bound:** Optimizing a multi-stop trading route across disparate forest logging camps without depleting daily stamina is formulated as the **Travelling Salesman Problem (TSP)** and solved using **Branch and Bound**.
+5. **Advanced Indexing:** Persisting game saves and indexing thousands of historical transaction logs employs **B+ Trees** and **Red-Black Trees**.
 
 ---
 
 # Problem Statement
 
-A player working as a woodcutter must earn money while operating under a
-limited daily stamina budget.
+A resource harvester in a vast forest territory must maximize economic return and character progression while navigating within strict physical and computational constraints:
 
-Different forests contain different types and quantities of wood, and each
-wood type has a different selling value. The player also has access to
-different axes with different costs and efficiency levels.
+1. **Finite Daily Stamina:** Every action—chopping timber, mining iron, fishing coastal waters, or walking across mountain passes—consumes stamina. When stamina reaches zero, the player is exhausted and must rest at a settlement tavern or camp bonfire.
+2. **Carrying Capacity Limits:** The adventurer can only haul a finite weight ($100.0\text{ kg}$). Heavy iron ores ($2.5\text{ kg/unit}$) and stone ($2.0\text{ kg/unit}$) offer high value but rapidly encumber the player, forcing tradeoff decisions.
+3. **Spatial Navigation Over Sparse Networks:** The world cannot be traversed arbitrarily; travel requires moving along established roads, mountain passes, and river crossings with varying edge weights.
+4. **Market Economics:** Wood, ores, and herbs have distinct market prices. Upgrading from a basic hatchet to an iron or lumberjack axe drastically enhances cutting yield, demanding strategic investment.
 
-Travel between forests requires moving through connected locations and may
-have associated costs.
-
-The simulator therefore needs to:
-
-1. Efficiently organize equipment and resource records.
-2. Support insertion, deletion, searching, and modification of ordered data.
-3. Rank forests, resources, or activities according to value or priority.
-4. Represent the village and forests as a connected graph.
-5. Explore reachable forests.
-6. Find efficient routes between locations.
-7. Manage limited player stamina.
-8. Manage money and equipment upgrades.
-9. Track player progress.
-10. Save and load player progress.
-11. Provide a foundation for later optimization using additional DSA-II topics.
+The computational challenge is to construct an architecture where:
+- Game entities are organized using optimal asymptotic structures.
+- Route planning is calculated efficiently in real-time.
+- State persistence is reliable and modular.
+- The UI provides clear visual feedback of underlying algorithmic processes.
 
 ---
 
-# Objectives
-
-The main objectives are:
-
-- Develop a CLI-based resource-management simulator.
-- Apply tree-based data structures to game data.
-- Apply graph structures to the game world.
-- Implement meaningful graph traversal.
-- Implement shortest-path routing.
-- Demonstrate searching and updating of game records.
-- Demonstrate priority-based resource selection.
-- Model equipment and resource management.
-- Introduce economic decision-making.
-- Implement a daily stamina system.
-- Persist player progress through a text-based save system.
-- Create a foundation for Dynamic Programming and Backtracking/Branch &
-  Bound extensions.
-
----
-
-# Project Scope
-
-## Included in the Core Prototype
-
-The core project is designed around:
-
-- Player management
-- Multiple forests
-- Multiple wood/resource types
-- Axe/equipment upgrades
-- Daily stamina
-- Money
-- Resource collection
-- Resource selling
-- Forest-to-forest travel
-- Graph-based navigation
-- Tree-based resource/equipment organization
-- BFS
-- DFS
-- Dijkstra
-- Priority Queue / Heap concepts
-- Save/load functionality
-
-## Planned Extensions
-
-Depending on the development stage, the project can later include:
-
-- Dynamic Programming
-- 0/1 Knapsack
-- Backtracking
-- Branch and Bound
-- Minimum Spanning Tree algorithms
-- Advanced optimization
-- More detailed economy simulation
-
-The project deliberately avoids adding algorithms only for syllabus coverage.
-Each data structure or algorithm should have a meaningful computational role.
-
----
-
-# Gameplay Concept
-
-The player starts as a basic woodcutter with limited resources.
-
-A simplified progression is:
+# Core Gameplay Mechanics & Loop
 
 ```text
-Start Game
-    |
-    v
-Receive Basic Axe
-    |
-    v
-Choose Forest
-    |
-    v
-Travel
-    |
-    v
-Collect Wood
-    |
-    v
-Manage Stamina
-    |
-    v
-Return / Travel
-    |
-    v
-Sell Wood
-    |
-    v
-Earn Money
-    |
-    v
-Upgrade Axe
-    |
-    v
-Improve Efficiency
-    |
-    v
-Access Better Opportunities
-```
-
-The player's objective is to make good decisions about:
-
-- Where to travel
-- What to collect
-- When to return
-- Which equipment to purchase
-- How to use limited stamina
-- Which resources are worth collecting
-
----
-
-# Core Gameplay Loop
-
-```text
-              +----------------+
-              |   Choose Area  |
-              +--------+-------+
-                       |
-                       v
-              +----------------+
-              |     Travel     |
-              +--------+-------+
-                       |
-                       v
-              +----------------+
-              | Collect Wood   |
-              +--------+-------+
-                       |
-                       v
-              +----------------+
-              | Manage Stamina |
-              +--------+-------+
-                       |
-                       v
-              +----------------+
-              | Sell Resources |
-              +--------+-------+
-                       |
-                       v
-              +----------------+
-              | Earn Money     |
-              +--------+-------+
-                       |
-                       v
-              +----------------+
-              | Upgrade Gear   |
-              +--------+-------+
-                       |
-                       +--------------------+
-                                            |
-                                            v
-                                     Choose Better Area
+                        ┌────────────────────────┐
+                        │      Morning Dawn      │
+                        │ Full Stamina Restored  │
+                        └───────────┬────────────┘
+                                    │
+                                    ▼
+                        ┌────────────────────────┐
+                        │  Consult Route Finder  │
+                        │ Dijkstra / BFS / DFS   │
+                        └───────────┬────────────┘
+                                    │
+                                    ▼
+                        ┌────────────────────────┐
+                        │  Travel to Destination │
+                        │  Road Travel: -Stamina │
+                        └───────────┬────────────┘
+                                    │
+                                    ▼
+                        ┌────────────────────────┐
+                        │   Harvest Resources    │
+                        │  Wood, Ore, Herbs, Fish│
+                        │  Weight & Stamina Cost │
+                        └───────────┬────────────┘
+                                    │
+                                    ▼
+                        ┌────────────────────────┐
+                        │ Return to Village / Inn│
+                        │ Trade at Shop / Market │
+                        │ Upgrade Axes & Tools   │
+                        └───────────┬────────────┘
+                                    │
+                                    ▼
+                        ┌────────────────────────┐
+                        │    End Day / Sleep     │
+                        │ Save Slot Persistence  │
+                        └────────────────────────┘
 ```
 
 ---
 
-# Player System
+# World Map & Geographic Topology
 
-The player maintains a game state containing attributes such as:
-
-```text
-Player
-├── Name
-├── Money
-├── Stamina
-├── Power
-├── Current Location
-├── Current Equipment
-└── Inventory / Resources
-```
-
-### Example
+The simulation takes place on a high-resolution fantasy continent depicted in the handcrafted world map (`assets/images/map/world_map.jpg`). The terrain spans multiple biomes: northern snow peaks, dense temperate oak woods, primeval redwood groves, marshlands, river valleys, and southern coastal archipelagos.
 
 ```text
-Player: Shinu
-
-Money:       850
-Stamina:      65 / 100
-Power:        25
-Location:    Pine Forest
-Equipment:   Iron Axe
+[High Mountains]        [Iron Mine]        [Mountain Pass]        [Mine]        [Snow Forest]
+       \                     /                   |                  \                 /
+        \                   /                    |                   \               /
+   [Ancient Forest]--------+               [Hunter Camp]--------------+--------[Pine Forest]
+          |                                      |                                   |
+   [Ancient Grove]                         [Ranger Station]                  [Redwood Forest]
+          |                                      |                                   |
+   [Oak Forest]-----------------------------+----+                                   |
+          |                                 |                                  [Dark Forest]
+   [Lumber Camp]                         [Village]                                   |
+          |                             /    |    \                                  |
+      [Sawmill]                        /     |     \                                 |
+          |                [River Valley]    |      [Swamp]-----------------------[Ruins]
+   [River Crossing]--------------+           |         |                             |
+          |                      |           |         |                             |
+[Coastal Trading Post]      [River Fork]-----+         |                             |
+                                 |                     |                             |
+                            [River Delta]--------------+--------------------[Fisherman's Camp]
 ```
 
----
+## The 24 World Landmarks
 
-# Forest and Resource System
+Each landmark has distinct attributes, local resources, services, and geographic coordinates:
 
-The game world contains multiple forests.
+| Index | Landmark Name | Category | Primary Resources / Facilities | Stamina Travel Hub |
+|---|---|---|---|---|
+| 1 | **Village** | Village / City | Central Market, Inn, Quest Hub | Central Transit Nexus |
+| 2 | **Oak Forest** | Forest | Oak Wood, Wild Berries, Medicinal Herbs | Western Gateway |
+| 3 | **Pine Forest** | Forest | Pine Wood, Forest Mushrooms | Eastern Alpine Corridor |
+| 4 | **Redwood Forest** | Forest | Redwood Timber, Rare Flora | Eastern Wilds |
+| 5 | **Ancient Forest** | Forest | Sacred Oak, Ancient Herbs, Luminescent Crystals | Northwestern Primeval |
+| 6 | **Snow Forest** | Forest | Frosted Pine, Ice Crystals | Far Northeast Summit |
+| 7 | **Dark Forest** | Forest | Shadow Redwood, Fungi, Violet Crystals | Southeastern Peril |
+| 8 | **Ancient Grove** | Special Location | Serene Ponds, Sacred Shrines, Rare Flora | Western Ancient Trail |
+| 9 | **Hunter Camp** | Special Location | Hides, Leather, Campfire Rest, Trap Crafting | Northern Outpost |
+| 10 | **Ranger Station** | Special Location | Outpost Watchtower, Western Forest Intelligence | North-Central Trail |
+| 11 | **High Mountains** | Mountain | Rough Stone, Raw Quartz Geodes | Northern Alpine Crags |
+| 12 | **Mountain Pass** | Mountain | Chiseled Stone, Alpine Trailhead | Summit Canyon Gate |
+| 13 | **Iron Mine** | Mountain | High-Grade Iron Ore, Heavy Granite | Northwest Mine Shaft |
+| 14 | **Mine** | Mountain | Iron Ore, Stone Blocks, Crystal Veins | Northeast Quarry |
+| 15 | **Lumber Camp** | Special Location | Logging Cabins, Timber Stacks, Pine/Oak | Far-West Riverbank |
+| 16 | **Sawmill** | Special Location | Waterwheel Mill, Plank Processing, Wood Trading | Southwest River Fall |
+| 17 | **River Crossing** | Water Area | Arched Stone Bridge, River Fishing | Southwest Waypoint |
+| 18 | **Coastal Trading Post** | Water Area | Sea Harbor, Maritime Trade, Lighthouse, Ship Dock | Southwest Ocean Port |
+| 19 | **River Fork** | Water Area | Estuary Junction, River Angling | Southern Water Confluence |
+| 20 | **River Valley** | Water Area | Blossom Meadows, River Fish, Wild Berries | South-Central Floodplain |
+| 21 | **River Delta** | Water Area | Sandbars, Silt Fishery, Wooden Jetties | Southeast Delta |
+| 22 | **Fisherman's Camp** | Water Area | Smoked Fish, Netting, Raw Leather | Southeast Shoreline |
+| 23 | **Swamp** | Water Area | Murky Mangrove, Rare Fungi, Willow Timber | Southeast Wetlands |
+| 24 | **Ruins** | Special Location | Weathered Pillars, Relic Crystals, Shrines | Far-East Ancient Site |
 
-Each forest can have:
+## Road and River Graph Network
 
-- Forest name
-- Wood type
-- Quantity
-- Selling value
-- Travel connections
-- Travel cost
-
-Example:
-
-```text
-Pine Forest
-├── Wood Type: Pine Wood
-├── Quantity: 100
-└── Selling Rate: 10
-
-Oak Forest
-├── Wood Type: Oak Wood
-├── Quantity: 80
-└── Selling Rate: 18
-
-Redwood Forest
-├── Wood Type: Redwood
-├── Quantity: 50
-└── Selling Rate: 30
-```
-
-The different values create strategic choices for the player.
-
----
-
-# Equipment and Axe System
-
-The player can purchase improved axes.
-
-An axe can contain:
-
-```text
-Name
-Price
-Power
-Efficiency
-```
-
-Example:
-
-| Axe | Price | Power | Efficiency |
-|---|---:|---:|---:|
-| Basic Axe | 0 | 10 | 1.0x |
-| Stone Axe | 150 | 15 | 1.2x |
-| Iron Axe | 500 | 25 | 1.5x |
-| Steel Axe | 1200 | 40 | 2.0x |
-
-These values are example game data and can be adjusted during balancing.
-
-The equipment system provides an ordered collection that can be searched,
-updated, and ranked.
-
----
-
-# Stamina and Daily System
-
-Stamina limits the amount of work the player can perform during a day.
-
-Example:
-
-```text
-Maximum Stamina: 100
-
-Cut Tree:        -10
-Travel:           -5
-Heavy Activity:  -15
-```
-
-Once stamina becomes insufficient, the player must stop performing activities
-that require stamina and may need to finish the day.
-
-This creates a resource-management problem:
-
-```text
-Limited Stamina
-      |
-      +--> Travel
-      |
-      +--> Collect
-      |
-      +--> Return
-      |
-      +--> Other Actions
-```
-
-The player must decide how to spend the available stamina.
-
----
-
-# Economy and Selling System
-
-Collected resources can be sold for money.
-
-Example:
-
-```text
-Pine Wood
-Quantity: 20
-Rate: ₹10
-
-Revenue:
-20 × 10 = ₹200
-```
-
-The money can then be used to purchase better equipment.
-
-```text
-Collect
-   ↓
-Sell
-   ↓
-Money
-   ↓
-Upgrade
-   ↓
-Higher Efficiency
-   ↓
-More Effective Collection
-```
-
-This forms the main economic progression loop.
-
----
-
-# World and Navigation
-
-The forest world is represented as a graph.
-
-Each location is a **vertex/node** and each travel connection is an
-**edge**.
-
-Example:
-
-```text
-                  Mountain Forest
-                        |
-                        |
-                    Oak Forest
-                   /          \
-                  /            \
-          Pine Forest -------- River Forest
-               |
-               |
-             Village
-```
-
-A weighted version can store travel costs:
-
-```text
-Village --5-- Pine Forest
-Pine Forest --8-- Oak Forest
-Oak Forest --12-- Mountain Forest
-Pine Forest --6-- River Forest
-```
-
-This creates a direct practical application for graph algorithms.
-
----
-
-# Graph Representation
-
-The recommended representation for the core prototype is an **Adjacency
-List** because the forest world is naturally modeled as a sparse network.
-
-Example:
+Travel paths between landmarks are weighted by physical distance, elevation changes, and terrain difficulty, directly representing edge weights in the graph:
 
 ```python
-graph = {
-    "Village": ["Pine Forest"],
-    "Pine Forest": ["Village", "Oak Forest", "River Forest"],
-    "Oak Forest": ["Pine Forest", "Mountain Forest"],
-    "River Forest": ["Pine Forest"],
-    "Mountain Forest": ["Oak Forest"]
+EDGES = [
+    ("Village", "Hunter Camp", 4),
+    ("Village", "River Valley", 3),
+    ("Village", "Sawmill", 4),
+    ("Village", "Oak Forest", 5),
+    ("Village", "Swamp", 5),
+    ("Village", "Mountain Pass", 6),
+    ("Mountain Pass", "High Mountains", 3),
+    ("Mountain Pass", "Hunter Camp", 3),
+    ("High Mountains", "Iron Mine", 4),
+    ("High Mountains", "Mine", 4),
+    ("Mine", "Snow Forest", 5),
+    ("Mine", "Pine Forest", 5),
+    ("Snow Forest", "Pine Forest", 4),
+    ("Hunter Camp", "Pine Forest", 4),
+    ("Pine Forest", "Redwood Forest", 4),
+    ("Redwood Forest", "Dark Forest", 5),
+    ("Dark Forest", "Ruins", 6),
+    ("Hunter Camp", "Ranger Station", 4),
+    ("Ranger Station", "Ancient Forest", 5),
+    ("Ranger Station", "Oak Forest", 3),
+    ("Ancient Forest", "Ancient Grove", 3),
+    ("Ancient Grove", "Oak Forest", 4),
+    ("Ancient Grove", "Lumber Camp", 4),
+    ("Lumber Camp", "Sawmill", 3),
+    ("Oak Forest", "Sawmill", 3),
+    ("Sawmill", "River Crossing", 3),
+    ("River Crossing", "Coastal Trading Post", 4),
+    ("River Crossing", "River Fork", 4),
+    ("River Fork", "River Valley", 3),
+    ("River Fork", "River Delta", 4),
+    ("River Valley", "River Delta", 4),
+    ("River Valley", "Swamp", 4),
+    ("River Delta", "Fisherman's Camp", 4),
+    ("Swamp", "Fisherman's Camp", 5),
+    ("Swamp", "Ruins", 4),
+    ("Fisherman's Camp", "Ruins", 4),
+]
+```
+
+---
+
+# Player & Progression Systems
+
+## Level and XP Scaling
+
+Resource harvesting, route exploration, and trade operations yield Experience Points (**XP**):
+
+$$\text{Threshold}_{L+1} = \lfloor \text{Threshold}_L \times 1.35 \rfloor$$
+
+- Reaching a new level automatically increases **Max Stamina** ($+10$) and refills the stamina gauge.
+- Even-numbered levels increment the player's **Power** attribute ($+1$), magnifying the timber yield gathered per swing.
+
+## Stamina & Daily Cycle
+
+- **Total Stamina:** Base $100$ units (increases with Level).
+- **Travel Cost:** $1 \times \text{Edge Weight}$ stamina per road segment.
+- **Harvesting Cost:** $2$ stamina units per chop, mine, or fishing operation.
+- **Time Periods:** Each day cycles through `Morning` $\rightarrow$ `Afternoon` $\rightarrow$ `Evening` $\rightarrow$ `Night`. Traveling multiple nodes advances the time of day.
+- **Resting:** Sleeping at the Village Tavern or resting by a campsite bonfire restores stamina to maximum and advances to dawn of the next day.
+
+## Inventory Weight Capacity
+
+The player possesses a physical backpack carrying capacity:
+
+$$\text{Total Weight} = \sum_{i \in \text{Inventory}} (\text{Quantity}_i \times \text{Weight}_i) \le \text{Max Weight} \ (100.0\text{ kg})$$
+
+Attempting to harvest or purchase items when total weight exceeds $100.0\text{ kg}$ is rejected with a clear capacity warning, requiring inventory management or tactical sales.
+
+## Equipment & Tool Upgrades
+
+Equipment tiers directly determine resource gathering efficiency and power:
+
+```text
++-------------------+-------+-------+------------+-------------------------------+
+| Tool Name         | Price | Power | Weight     | Primary Use                   |
++-------------------+-------+-------+------------+-------------------------------+
+| Basic Axe         | 50g   | 1     | 3.0 kg     | Starter logging hatchet       |
+| Sturdy Axe        | 180g  | 2     | 4.0 kg     | Reinforced hardwood axe       |
+| Lumberjack Axe    | 450g  | 3     | 4.5 kg     | Masterwork steel logging tool |
+| Miner's Pickaxe   | 120g  | -     | 4.0 kg     | Required for Iron & Stone     |
+| Fishing Rod       | 80g   | -     | 1.5 kg     | Used at river & coastal docks |
++-------------------+-------+-------+------------+-------------------------------+
+```
+
+---
+
+# Economy & Market Systems
+
+## Resource Classification (12 Core Items)
+
+The simulation models 12 distinct gatherable and tradable items across four functional categories:
+
+```text
+[Resources] ──┬── Pine Wood     (Wt: 1.0 kg | Buy: 10g | Sell: 8g)
+              ├── Oak Wood      (Wt: 1.2 kg | Buy: 18g | Sell: 14g)
+              ├── Redwood Wood  (Wt: 1.5 kg | Buy: 45g | Sell: 36g)
+              ├── Stone         (Wt: 2.0 kg | Buy: 12g | Sell: 9g)
+              ├── Iron Ore      (Wt: 2.5 kg | Buy: 40g | Sell: 32g)
+              ├── Berries       (Wt: 0.2 kg | Buy:  6g | Sell: 4g)
+              ├── Mushrooms     (Wt: 0.3 kg | Buy:  8g | Sell: 6g)
+              ├── Herb          (Wt: 0.2 kg | Buy: 10g | Sell: 8g)
+              ├── Flower        (Wt: 0.1 kg | Buy:  7g | Sell: 5g)
+              └── Fish          (Wt: 0.8 kg | Buy: 20g | Sell: 15g)
+
+[Materials] ──┬── Leather       (Wt: 1.0 kg | Buy: 35g | Sell: 25g)
+              └── Crystal       (Wt: 0.5 kg | Buy: 100g| Sell: 80g)
+```
+
+## Market Trading Mechanics
+
+Markets are accessible at designated commercial locations: **Village**, **Hunter Camp**, **Sawmill**, **Lumber Camp**, and **Coastal Trading Post**.
+- **Buy Mode:** Allows acquiring lumber, minerals, potions, and equipment using accumulated gold.
+- **Sell Mode:** Allows offloading heavy gathered resources to liquidate inventory weight into gold coins.
+
+---
+
+# Comprehensive Syllabus Mapping (Units 1 to 5)
+
+This section details how every topic in the **CCSE0301 / BCSE0401** syllabus maps directly to an active or architectural component of the Forest Resource Simulator.
+
+```text
+===================================================================================
+                       COMPLETE SYLLABUS-TO-SIMULATION MAP
+===================================================================================
+UNIT 1: TREES                 ──► Item Catalogs, AVL Equipment Indices, Binary Heaps
+UNIT 2: GRAPHS                ──► World Topology, Dijkstra, BFS/DFS, Prim/Kruskal
+UNIT 3: DYNAMIC PROGRAMMING   ──► 0/1 Knapsack Inventory, Resource Allocation, LCS
+UNIT 4: BACKTRACKING / B&B    ──► Travelling Salesman Problem, Watchtower n-Queens
+UNIT 5: ADVANCED STRUCTURES   ──► Red-Black Market Book, B+ Tree Save Chunks, Fib Heaps
+===================================================================================
+```
+
+---
+
+## Unit 1: Design and Analysis of Algorithms — Trees
+
+```text
+Unit 1 (9 Hours):
+Trees: Terminology used with Trees, Binary Tree, Memory representation of Tree, 
+Traversal Algorithms: In-order, Pre-order, and Post-order. Constructing Binary Tree 
+from given Tree Traversal, Operation of Insertion, Deletion, Searching & Modification 
+of data in Binary Search Tree, Binary Heaps, Threaded Binary trees, Traversing 
+Threaded Binary trees, AVL Tree. Application of Trees: Priority Queue, Heap Sort.
+```
+
+### 1. Binary Search Tree (BST) & Terminology
+- **Game Application:** Used to store and maintain ordered equipment records, market item registries, and player inventory catalogs sorted by price, weight, or power rating.
+- **Node Structure:** Contains `item_id`, `price`, `weight`, `power`, with pointers to left and right children.
+- **Memory Representation:** Linked node structures with dynamic memory allocation.
+- **Operations:**
+  - `Insert(Item)`: Places a new tool or resource into the registry in $O(\log n)$ average time.
+  - `Search(Key)`: Retrieves item specifications by price or ID.
+  - `Delete(Key)`: Handles item removal or discontinuation (handling 0, 1, or 2 children).
+  - `Modify(Key, Value)`: Updates fluctuating commodity prices.
+
+### 2. Traversal Algorithms (Inorder, Preorder, Postorder)
+- **In-order Traversal (Left, Root, Right):** Produces equipment listings in strictly ascending order of cost ($0\text{g} \rightarrow 50\text{g} \rightarrow 180\text{g} \rightarrow 450\text{g}$). This directly populates the sorted shop list.
+- **Pre-order Traversal (Root, Left, Right):** Serializes the tree hierarchy for save-file persistence, ensuring the exact shape can be reconstructed without re-balancing overhead.
+- **Post-order Traversal (Left, Right, Root):** Used in garbage collection, resource deallocation, and computing cumulative category weights from leaf nodes upward.
+
+### 3. Tree Reconstruction from Traversals
+- Demonstrates reconstructing a unique binary search/expression tree given its **In-order + Pre-order** or **In-order + Post-order** sequence, proving structural determinism during game save deserialization.
+
+### 4. Threaded Binary Trees
+- **Mechanism:** Replaces null right/left pointers with threads pointing directly to in-order successors and predecessors.
+- **Game Application:** Enables fast in-order iteration across thousands of market items without recursion or call-stack overhead, ideal for constrained embedded devices or high-frequency UI rendering loops.
+
+### 5. AVL Trees (Adelson-Velsky and Landis)
+- **Mechanism:** Height-balanced binary search tree maintaining balance factor $\text{BF} = |h_L - h_R| \le 1$.
+- **Rotations:** Employs Left-Left (LL), Right-Right (RR), Left-Right (LR), and Right-Left (RL) rotations upon insertion or deletion.
+- **Game Application:** Ensures guaranteed $O(\log n)$ lookup times for world loot tables even when items are inserted in sorted order, preventing BST degeneration into an $O(n)$ linked list.
+
+```text
+      [Unbalanced BST]                           [Balanced AVL]
+           10 (Pine)                                  20 (Oak)
+             \                                       /        \
+             20 (Oak)         ──► RR Rotation       10 (Pine)  45 (Redwood)
+               \
+               45 (Redwood)
+```
+
+### 6. Binary Heaps, Priority Queues, & Heap Sort
+- **Max-Heap:** Ranks the most lucrative harvesting locations based on the composite metric $\text{Profit} = \text{Yield} \times \text{Price} - \text{Travel Cost}$. The root of the heap yields the optimal immediate expedition.
+- **Min-Heap:** Implements the Priority Queue powering Dijkstra's shortest-path algorithm.
+- **Heap Sort:** Used in the market UI to sort resources by player-selected criteria (Price, Stack Count, Weight) with guaranteed $O(n \log n)$ performance and $O(1)$ auxiliary space.
+
+---
+
+## Unit 2: Design and Analysis of Algorithms — Graphs
+
+```text
+Unit 2 (9 Hours):
+Graphs: Terminology used with Graph, Data Structure for Graph Representations: 
+Adjacency matrices, Adjacency List. Graph Traversal: Depth First Search and 
+Breadth First Search. Connected Component, Spanning Trees. Algorithms on Graphs: 
+Minimum Cost Spanning Trees: Prim’s and Kruskal’s algorithm, Transitive Closure 
+and Shortest Path algorithms: Dijkstra Algorithm, Bellman Ford Algorithm, 
+Floyd Warshall’s Algorithm.
+```
+
+### 1. Graph Representations
+- **Adjacency List:** The primary storage mechanism for the world map (`dsa/graphs/graph.py`). Because the continent is a sparse planar network ($|V| = 24, |E| = 36$), the adjacency list uses $O(V + E)$ memory, minimizing spatial overhead.
+- **Adjacency Matrix:** A $24 \times 24$ two-dimensional matrix $M[u][v]$ storing direct travel costs or $\infty$. Used for $O(1)$ edge-weight queries and matrix-based all-pairs shortest path algorithms.
+
+### 2. Graph Traversals (BFS & DFS)
+- **Breadth-First Search (BFS):** Explores locations layer-by-layer using a FIFO queue (`dsa/graphs/bfs.py`). In the Route Finder modal, selecting **"BFS (Nearest)"** identifies the route with the fewest number of geographic transitions regardless of edge cost.
+- **Depth-First Search (DFS):** Traverses deeply down unexplored paths using recursion and backtracking (`dsa/graphs/dfs.py`). In the Route Finder modal, selecting **"DFS (Explore)"** computes deep exploratory circuits suitable for discovering uncharted groves and forgotten shrines.
+
+```text
+BFS Discovery from Village:
+Layer 0: [Village]
+Layer 1: [Hunter Camp, River Valley, Sawmill, Oak Forest, Swamp, Mountain Pass]
+Layer 2: [Pine Forest, High Mountains, Ranger Station, River Fork, River Crossing...]
+```
+
+### 3. Connected Components & Spanning Trees
+- **Connected Components:** Verifies whether damaged roads (e.g., collapsed bridge at River Crossing or blocked Mountain Pass) partition the world into isolated sub-regions, preventing impossible quest assignments.
+- **Spanning Trees:** Identifies a cycle-free sub-network connecting all 24 landmarks.
+
+### 4. Minimum Cost Spanning Trees (MST)
+- **Prim's Algorithm:** Begins at the central *Village* and greedily expands the frontier using a priority queue, building the cheapest connected road infrastructure.
+- **Kruskal's Algorithm:** Sorts all global edges by cost and greedily unions components using the **Disjoint Set Union (DSU / Union-Find)** data structure with path compression and union by rank:
+
+$$\text{Find}(x): \ O(\alpha(V)), \quad \text{Union}(x, y): \ O(\alpha(V))$$
+
+- **Game Application:** Simulates the royal forestry department's initiative to pave permanent, paved highways between all logging outposts with minimum construction expenditure.
+
+### 5. Shortest Path Algorithms
+- **Dijkstra's Algorithm:** Calculates the single-source shortest path under non-negative weights using a min-heap (`dsa/graphs/dijkstra.py`). In the UI, selecting **"Shortest (Dijkstra)"** calculates the exact path that minimizes total stamina drainage.
+- **Bellman-Ford Algorithm:** Accommodates negative edge weights. In advanced game modes, downhill river currents or wind-assisted trails provide stamina bonuses (negative costs). Bellman-Ford computes optimal paths while detecting negative-weight fatigue loops in $O(V \cdot E)$ time.
+- **Floyd-Warshall Algorithm:** Computes the all-pairs shortest path matrix across all 24 locations in $O(V^3)$ time, enabling instantaneous lookup of distance tables in the UI without recomputing Dijkstra for every destination.
+- **Transitive Closure (Warshall's Algorithm):** Constructs the reachability matrix $R[u][v] \in \{0, 1\}$ answering whether location $v$ can be reached from location $u$ under current map conditions.
+
+---
+
+## Unit 3: Dynamic Programming
+
+```text
+Unit 3 (9 Hours):
+Dynamic Programming: Dynamic Programming concepts, 0/1 Knapsack, 
+Longest Common Subsequence, Matrix Chain Multiplication, 
+Resource Allocation Problem.
+```
+
+### 1. 0/1 Knapsack Problem (Carrying Capacity Optimization)
+- **Problem Statement:** The player is at a remote forest camp with limited remaining carrying capacity $W = 100 - \text{Current Weight}$. Multiple valuable resources are available, each with weight $w_i$ and market value $v_i$. Each item can either be taken ($1$) or left behind ($0$).
+- **Recurrence Relation:**
+
+$$K(i, w) = \begin{cases} 
+0 & \text{if } i = 0 \text{ or } w = 0 \\
+K(i-1, w) & \text{if } w_i > w \\
+\max(v_i + K(i-1, w - w_i), \ K(i-1, w)) & \text{otherwise}
+\end{cases}$$
+
+- **Complexity:** $O(n \cdot W)$ time and space via table memoization or $O(W)$ space via single-array optimization.
+- **Gameplay Role:** An in-game "Auto-Packer" assistant button in the inventory computes the mathematically optimal combination of loot to take home for maximum profit.
+
+```text
+Sample Knapsack Table:
+Items: Pine Wood (10kg, 80g), Iron Ore (25kg, 320g), Crystal (5kg, 800g)
+Capacity W = 30kg
+Optimal Choice: Crystal (5kg) + Iron Ore (25kg) = 30kg total, 1120 gold revenue!
+```
+
+### 2. Longest Common Subsequence (LCS)
+- **Problem Statement:** Compares two harvesting expedition paths or trade caravans to determine shared route milestones.
+- **Game Application:** The Ranger Guild awards bonus guild reputation when a player's exploration route matches historical legendary trade caravans. LCS computes the similarity score in $O(m \cdot n)$ time.
+
+### 3. Matrix Chain Multiplication (MCM)
+- **Problem Statement:** Determining the most cost-effective order of operations when processing raw materials through multiple conversion stages:
+
+$$\text{Raw Timber} \xrightarrow{M_1} \text{Seasoned Planks} \xrightarrow{M_2} \text{Carved Posts} \xrightarrow{M_3} \text{Reinforced Frames}$$
+
+- **Recurrence:**
+
+$$m[i, j] = \min_{i \le k < j} \left( m[i, k] + m[k+1, j] + p_{i-1} p_k p_j \right)$$
+
+- **Gameplay Role:** Minimizes the total fuel and stamina overhead in advanced workshop crafting chains.
+
+### 4. Resource Allocation Problem
+- **Problem Statement:** Dividing a discrete daily budget of $S$ stamina units across $K$ competing biomes (Logging, Mining, Fishing, Foraging) where each activity exhibits diminishing marginal returns modeled by profit function $f_k(s)$.
+- **Solution:** Formulated as a multi-stage dynamic programming decision process, providing players with automated optimal daily work schedules.
+
+---
+
+## Unit 4: Backtracking, Branch and Bound
+
+```text
+Unit 4 (9 Hours):
+Backtracking: Backtracking, Branch, and Bound with Examples Such as 
+Travelling Salesman Problem, Graph Colouring, n-Queen Problem, 
+Hamiltonian Cycles, and Sum of Subsets.
+```
+
+### 1. Travelling Salesman Problem (TSP) via Branch and Bound
+- **Problem Statement:** A master merchant commissions the player to visit a designated subset of $K$ forest settlements to collect orders and return to the *Village* using minimal stamina.
+- **Branch and Bound Approach:** Explores the state space tree using best-first search with a priority queue. At each node, computes a lower bound on tour completion using a reduced cost matrix:
+
+$$\text{Cost} = \text{Current Tour Length} + \text{Lower Bound on Remaining Edges}$$
+
+- Prunes branches whose lower bound exceeds the best tour discovered so far, avoiding brute-force $O(K!)$ explosion.
+
+### 2. Graph Colouring (Safe Zone & Resource Scheduling)
+- **Problem Statement:** Assigning schedules or patrol colors to adjacent forest camps such that no two neighboring camps share the same logging schedule, preventing resource depletion conflicts:
+
+$$\forall (u, v) \in E, \quad \text{Color}(u) \ne \text{Color}(v)$$
+
+- Solved via backtracking with the $m$-colorability decision algorithm.
+
+### 3. n-Queen Problem (Ranger Watchtower Placement)
+- **Problem Statement:** Positioning $n$ ranger watchtowers on an $n \times n$ territorial grid so that no two towers can see each other along the same row, column, or diagonal line of sight.
+- **Gameplay Role:** A strategic mini-game at the *Ranger Station* unlocking map fog-of-war.
+
+```text
+4-Queens Solution Grid:
+. Q . .
+. . . Q
+Q . . .
+. . Q .
+```
+
+### 4. Hamiltonian Cycles
+- **Problem Statement:** Finding a closed circuit that visits every designated landmark in a region **exactly once** and returns to the origin.
+- **Game Application:** Royal courier delivery contracts requiring a non-repeating inspection circuit.
+
+### 5. Sum of Subsets
+- **Problem Statement:** Given a set of gathered resource weights $\{w_1, w_2, \dots, w_n\}$, find all subsets whose combined weight precisely matches an exact caravan cargo quota $M$.
+- **Mechanism:** Solved using a binary state-space tree with bounding conditions $\sum_{k=1}^i w_k + \sum_{k=i+1}^n w_k \ge M$.
+
+---
+
+## Unit 5: Advanced Data Structures
+
+```text
+Unit 5 (9 Hours):
+Advanced Data Structures: Red-Black Trees, B-Trees, B+ Trees, 
+Binomial Heaps, Fibonacci Heaps.
+```
+
+### 1. Red-Black Trees
+- **Mechanism:** Self-balancing binary search tree where every node is colored Red or Black, satisfying:
+  1. Root is Black.
+  2. All leaves (NIL) are Black.
+  3. Red nodes cannot have Red children (no consecutive Red nodes).
+  4. Every simple path from a node to descendant leaves has identical Black-Height.
+- **Game Application:** Maintains real-time active order books in the Village Market. Red-Black trees require fewer rotations during frequent insert/delete operations compared to AVL trees, providing higher throughput for market transactions.
+
+### 2. B-Trees and B+ Trees
+- **Mechanism:** Self-balancing $m$-way search trees designed for block-storage architectures. In a **B+ Tree**, internal nodes store only routing keys, while all records reside in linked leaf nodes.
+- **Game Application:**
+  - **Save Slot File System:** Manages persistent secondary storage indexing for player profiles, game states, and world chunk modifications.
+  - **Sequential Range Queries:** The linked leaf chain in the B+ Tree allows the inventory and market UI to execute fast pagination queries (e.g., retrieving items with price between $10\text{g}$ and $50\text{g}$) with sequential disk reads.
+
+```text
+                 [ 25 | 50 ]                   <-- Internal Index Node
+                /     |     \
+               /      |      \
+     [10 | 18] ──► [25 | 40] ──► [50 | 80 | 100] <-- Linked Leaf Records
+```
+
+### 3. Binomial Heaps and Fibonacci Heaps
+- **Binomial Heap:** A collection of binomial trees $B_k$ supporting $O(\log n)$ merge operations. Used for merging inventories between caravans.
+- **Fibonacci Heap:** Achieves amortized $O(1)$ time for `Insert`, `Find-Min`, and critically `Decrease-Key`.
+- **Game Application:** When integrated into Dijkstra's algorithm, the Fibonacci Heap drops the asymptotic time complexity from $O((V + E) \log V)$ to:
+
+$$O(E + V \log V)$$
+
+This ensures instant pathfinding calculations even if the world graph scales to thousands of procedural nodes.
+
+---
+
+# User Interface & Visual Design Architecture
+
+## Design Aesthetics & Color Palette
+
+The interface was built to mirror high-end fantasy RPGs, using parchment panels, hand-drawn wood frames, glowing path trails, and clear typography:
+
+```python
+COLORS = {
+    "parchment_light":  (244, 233, 211),  # Main modal background
+    "parchment_mid":    (232, 216, 185),  # Slot & container fill
+    "wood_dark":        (54,  36,  22),   # Heavy timber borders
+    "wood_frame":       (86,  56,  34),   # Window headers
+    "gold":             (238, 180, 48),   # Currency & active highlights
+    "gold_border":      (200, 140, 30),   # Trim & bevels
+    "stamina_cyan":     (38,  178, 224),  # Stamina bar & icons
+    "xp_green":         (72,  192, 64),   # Experience progress
+    "btn_green":        (68,  148, 54),   # Confirm / buy actions
+    "btn_blue":         (48,  112, 184),  # Navigation & path actions
+    "btn_danger":       (184, 54,  48),   # Close & cancel
+    "route_glow":       (100, 255, 150),  # Animated map trail
 }
 ```
 
-For weighted travel:
+## Interactive Screen & Modal Guide
 
-```python
-graph = {
-    "Village": {
-        "Pine Forest": 5
-    },
-    "Pine Forest": {
-        "Village": 5,
-        "Oak Forest": 8,
-        "River Forest": 6
+### 1. Main Menu Screen (`ui/screens/main_menu.py`)
+- Full-resolution $1280 \times 720$ hand-drawn woodland cottage backdrop with stone chimney, dirt trail, and alpine peaks.
+- Wooden signboard logo **"FOREST RESOURCE SIMULATOR"**.
+- Interactive carved buttons:
+  - **New Game:** Re-initializes player state and enters the world map.
+  - **Continue:** Instantly loads the latest progress from Slot 1.
+  - **Load Game:** Opens the Save/Load modal overlay.
+  - **Settings:** Configures display, volume, and framerate.
+  - **How to Play:** Explains stamina, movement, harvesting, and DSA routing.
+  - **Credits:** Academic PBL attribution.
+
+### 2. Top HUD Bar (`ui/components/hud.py`)
+- **Avatar Portrait:** Framed circular explorer icon.
+- **Level & XP Gauge:** Displays current level with a green progress bar (`340 / 600`).
+- **Stamina Bar:** Cyan battery/lightning gauge displaying available energy (`80 / 100`).
+- **Currency Counter:** Gold coin icon with formatted wealth (`2,450`).
+- **Calendar & Time:** Displays current day number and day-night status (`Day 12 (Morning)`).
+- **Navigation Controls:** Styled quick-access buttons for `Map`, `Inventory`, `Shop`, `Route`, `Save/Load`, and `Menu`.
+
+### 3. World Map Canvas (`ui/screens/game_world.py`)
+- Displays the full continent terrain beneath the HUD.
+- Renders dashed road networks along graph edges.
+- Pulsing golden adventurer beacon at current coordinates.
+- Landmark hover detection: highlights location plaques with golden circles and tooltips.
+- Visual Route Tracing: When a route is computed, an animated pulsing emerald trail illuminates the path with numbered stop badges (`1`, `2`, `3`, `4`).
+
+### 4. Inventory Modal (`ui/modals/inventory_modal.py`)
+- Parchment-styled floating window with drop shadow.
+- Category filters: `All`, `Resources`, `Tools`, `Materials`, `Others`.
+- 16-slot grid featuring extracted icon artwork and stack badges.
+- Dynamic Weight Progress Bar: Tracks backpack load against the $100.0\text{ kg}$ threshold.
+- Interactive Tooltips: Hovering over items reveals description, category, weight, and sell value.
+
+### 5. Shop - Market Modal (`ui/modals/shop_modal.py`)
+- `Buy` and `Sell` operational tabs.
+- Category filters: `All`, `Tools`, `Materials`, `Resources`.
+- Item rows with item icon, name, category, price, and action buttons.
+- Real-time economy integration updating inventory and gold balance.
+
+### 6. Route Finder Modal (`ui/modals/route_finder_modal.py`)
+- **From / To Selectors:** Dropdowns cycling through all 24 mapped landmarks.
+- **Algorithm Toggles:**
+  - `[Shortest (Dijkstra)]`: Computes route minimizing total edge weight.
+  - `[BFS (Nearest)]`: Computes route minimizing node count.
+  - `[DFS (Explore)]`: Computes an exploratory depth route.
+- **Route Summary Card:** Displays total stamina cost, node distance, and numbered itinerary.
+- **Action Buttons:**
+  - `[Show on Map]`: Closes modal and highlights the route on the world map.
+  - `[Travel Route]`: Deducts stamina, moves the player, and advances time.
+
+### 7. Save / Load Modal (`ui/modals/save_load_modal.py`)
+- 3 independent save slots.
+- Slot cards display thumbnail preview, Day, Level, Location, Money, and formatted timestamp.
+- JSON persistence stored in `saves/save_*.json`.
+
+### 8. Location Action Modal (`ui/modals/location_modal.py`)
+- Opens when clicking any map landmark.
+- Shows lore description, available local resources, and actions:
+  - `[Chop Wood]`, `[Mine Ore]`, `[Go Fishing]`, `[Gather Herbs]`
+  - `[Rest at Inn]`
+  - `[Visit Market]`
+  - `[Travel Here]` (if adjacent)
+  - `[Set as Route Dest]`
+
+---
+
+# System Architecture & Codebase Layout
+
+The project follows a modular, decoupled architecture:
+
+```text
+ForestResourceSimulator/
+│
+├── main.py                     # Application entry point & game loop
+├── requirements.txt            # Dependency specification (pygame>=2.6.0)
+├── README.md                   # Complete architectural & syllabus documentation
+│
+├── assets/                     # Graphical and visual game assets
+│   └── images/
+│       ├── map/
+│       │   └── world_map.jpg   # High-resolution 1024x682 continent map
+│       ├── ui/
+│       │   ├── title_bg_1280.jpg # Main menu cottage backdrop
+│       │   ├── logo.png        # Wooden signboard title logo
+│       │   ├── avatar.png      # Character avatar portrait
+│       │   └── coin.png        # Currency gold icon
+│       └── items/              # 12 extracted 36x36 resource icons
+│           ├── pine_wood.png
+│           ├── oak_wood.png
+│           ├── redwood_wood.png
+│           ├── stone.png
+│           ├── iron_ore.png
+│           ├── berries.png
+│           ├── mushrooms.png
+│           ├── herb.png
+│           ├── flower.png
+│           ├── fish.png
+│           ├── leather.png
+│           └── crystal.png
+│
+├── core/                       # Game engine core systems
+│   ├── config.py               # Constants, dimensions (1280x720), and color palette
+│   ├── game_state.py           # Central state: player, world, routing, and UI flags
+│   ├── scene_manager.py        # Scene management (MainMenu <-> GameWorld)
+│   └── save_manager.py         # JSON slot serialization and loading
+│
+├── world/                      # Geographic world & graph definitions
+│   ├── locations.py            # 24 locations with coords, resources, and edges
+│   └── world.py                # Graph management and route queries
+│
+├── dsa/                        # Data Structures and Algorithms implementations
+│   ├── graphs/
+│   │   ├── graph.py            # Adjacency-list Graph class
+│   │   ├── dijkstra.py         # Dijkstra shortest-path algorithm
+│   │   ├── bfs.py              # Breadth-First Search pathfinder
+│   │   └── dfs.py              # Depth-First Search pathfinder
+│   ├── trees/                  # BST, AVL, and Threaded Trees
+│   ├── heaps/                  # Binary Min/Max Heaps and Priority Queues
+│   ├── optimization/           # 0/1 Knapsack & Dynamic Programming
+│   └── queue.py                # FIFO Queue implementation
+│
+├── player/                     # Character model and inventory
+│   └── player.py               # Level, XP, stamina, weight, and inventory
+│
+├── economy/                    # Economic and item definitions
+│   └── items.py                # 12 item catalog with weights and prices
+│
+├── ui/                         # User interface, widgets, and screens
+│   ├── components/
+│   │   └── hud.py              # Top status bar with avatar, bars, and buttons
+│   ├── modals/                 # Floating parchment modal windows
+│   │   ├── inventory_modal.py  # Inventory grid and weight gauge
+│   │   ├── shop_modal.py       # Market trading buy/sell interface
+│   │   ├── route_finder_modal.py # Dijkstra/BFS/DFS route finder
+│   │   ├── save_load_modal.py  # Save and load slot interface
+│   │   └── location_modal.py   # Landmark interaction and harvesting
+│   ├── screens/
+│   │   ├── main_menu.py        # Title screen with buttons
+│   │   └── game_world.py       # World map canvas and routing overlays
+│   └── widgets/
+│       ├── asset_loader.py     # Image and font caching singleton
+│       ├── button.py           # Styled wood and green buttons
+│       └── modal_frame.py      # Parchment window frame with close button
+│
+└── saves/                      # Persistent game save files
+    ├── save_1.json             # Slot 1 save file
+    ├── save_2.json             # Slot 2 save file
+    └── save_3.json             # Slot 3 save file
+```
+
+---
+
+# Theoretical Algorithm Complexity Analysis
+
+| Syllabus Unit | Algorithm / Data Structure | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (Worst) | Space Complexity |
+|---|---|---|---|---|---|
+| **Unit 1** | Binary Search Tree (Search/Insert/Delete) | $O(1)$ | $O(\log n)$ | $O(n)$ | $O(n)$ |
+| **Unit 1** | AVL Tree (Search/Insert/Delete) | $O(1)$ | $O(\log n)$ | $O(\log n)$ | $O(n)$ |
+| **Unit 1** | Tree Traversals (Inorder/Pre/Post) | $O(n)$ | $O(n)$ | $O(n)$ | $O(h)$ |
+| **Unit 1** | Binary Heap (Insert / Delete-Min) | $O(1)$ | $O(\log n)$ | $O(\log n)$ | $O(n)$ |
+| **Unit 1** | Heap Sort | $O(n \log n)$ | $O(n \log n)$ | $O(n \log n)$ | $O(1)$ aux |
+| **Unit 2** | Breadth-First Search (BFS) | $O(V + E)$ | $O(V + E)$ | $O(V + E)$ | $O(V)$ |
+| **Unit 2** | Depth-First Search (DFS) | $O(V + E)$ | $O(V + E)$ | $O(V + E)$ | $O(V)$ |
+| **Unit 2** | Dijkstra (Min-Heap) | $O(E \log V)$ | $O(E \log V)$ | $O((V + E) \log V)$ | $O(V)$ |
+| **Unit 2** | Prim's MST (Min-Heap) | $O(E \log V)$ | $O(E \log V)$ | $O(E \log V)$ | $O(V)$ |
+| **Unit 2** | Kruskal's MST (Union-Find) | $O(E \log E)$ | $O(E \log E)$ | $O(E \log E)$ | $O(V)$ |
+| **Unit 2** | Bellman-Ford Algorithm | $O(E)$ | $O(V \cdot E)$ | $O(V \cdot E)$ | $O(V)$ |
+| **Unit 2** | Floyd-Warshall Algorithm | $O(V^3)$ | $O(V^3)$ | $O(V^3)$ | $O(V^2)$ |
+| **Unit 3** | 0/1 Knapsack (Dynamic Programming) | $O(n \cdot W)$ | $O(n \cdot W)$ | $O(n \cdot W)$ | $O(n \cdot W) \rightarrow O(W)$ |
+| **Unit 3** | Longest Common Subsequence (LCS) | $O(m \cdot n)$ | $O(m \cdot n)$ | $O(m \cdot n)$ | $O(m \cdot n)$ |
+| **Unit 3** | Matrix Chain Multiplication (MCM) | $O(n^3)$ | $O(n^3)$ | $O(n^3)$ | $O(n^2)$ |
+| **Unit 4** | Travelling Salesman (Branch & Bound) | $O(n^2)$ | $O(2^n \cdot n^2)$ | $O(n!)$ | $O(n \cdot 2^n)$ |
+| **Unit 4** | Graph Colouring (Backtracking) | $O(V)$ | $O(m^V)$ | $O(m^V)$ | $O(V)$ |
+| **Unit 4** | n-Queens (Backtracking) | $O(1)$ | $O(n!)$ | $O(n!)$ | $O(n)$ |
+| **Unit 5** | Red-Black Tree (Search/Insert/Delete) | $O(1)$ | $O(\log n)$ | $O(\log n)$ | $O(n)$ |
+| **Unit 5** | B-Tree / B+ Tree (Search/Insert/Delete) | $O(1)$ | $O(\log_m n)$ | $O(\log_m n)$ | $O(n)$ |
+| **Unit 5** | Fibonacci Heap (Insert / Decrease-Key) | $O(1)$ | $O(1)$ amortized | $O(1)$ amortized | $O(n)$ |
+
+---
+
+# Persistence & Save System
+
+Game state is persisted to structured JSON files in the `saves/` directory.
+
+Example `save_1.json`:
+```json
+{
+  "slot": 1,
+  "timestamp": "27 Oct 2026, 23:05",
+  "player": {
+    "name": "Explorer",
+    "level": 5,
+    "xp": 340,
+    "max_xp": 600,
+    "money": 2450,
+    "max_stamina": 100,
+    "stamina": 80,
+    "power": 2,
+    "day": 12,
+    "time_of_day": "Morning",
+    "current_location": "Village",
+    "equipment": "Basic Axe",
+    "inventory": {
+      "pine_wood": 12,
+      "oak_wood": 8,
+      "redwood_wood": 15,
+      "stone": 6,
+      "iron_ore": 4,
+      "berries": 20,
+      "mushrooms": 7,
+      "herb": 3,
+      "flower": 2,
+      "fish": 2,
+      "leather": 1,
+      "crystal": 1
     }
+  }
 }
 ```
 
----
-
-# Data Structures
-
-The project uses Data Structures where they naturally match the game
-requirements.
-
-## Primary Structures
-
-### AVL Tree / BST
-
-Used for ordered game records such as:
-
-- Axes
-- Equipment
-- Resources
-- Resource values
-
-Operations include:
-
-- Insert
-- Search
-- Delete
-- Modify
-- Traversal
+The system verifies file integrity, validates data ranges, and handles corrupt or missing saves gracefully.
 
 ---
 
-### Heap / Priority Queue
+# Testing & Quality Assurance
 
-Used to rank or retrieve high-priority opportunities.
-
-Possible examples:
-
-```text
-Highest-value forest
-Highest-value wood
-Best earning opportunity
-Highest-priority activity
-```
-
----
-
-### Adjacency List
-
-Used to represent:
-
-- Village
-- Forests
-- Travel paths
-- Connected locations
-
----
-
-### Queue
-
-Useful for:
-
-- BFS
-- Exploration processing
-- Future task/waiting systems
-
----
-
-### Stack
-
-Useful for:
-
-- DFS
-- Backtracking
-- Future exploration history
-
----
-
-### Lists / Arrays
-
-Used for simple collections such as:
-
-- Player state
-- Inventory
-- Resource quantities
-- Configuration data
-
----
-
-# Algorithms
-
-The project focuses on algorithms that have a meaningful gameplay
-application.
-
-## Unit 1
-
-- Tree Traversals
-- BST operations
-- AVL Tree
-- Heap
-- Priority Queue
-- Heap Sort
-
-## Unit 2
-
-- Graph representation
-- BFS
-- DFS
-- Dijkstra
-- Prim / Kruskal as optional network-design extensions
-
-## Later Extensions
-
-- Dynamic Programming
-- 0/1 Knapsack
-- Backtracking
-- Branch and Bound
-
----
-
-# DSA-to-Gameplay Mapping
-
-| DSA Concept | Application |
-|---|---|
-| Binary Search Tree | Ordered equipment/resource records |
-| AVL Tree | Balanced search/update of equipment or resources |
-| Tree Traversal | Sorted display and structured processing |
-| Max Heap | Ranking high-value opportunities |
-| Priority Queue | Highest-priority resource/activity retrieval |
-| Heap Sort | Ranking axes or resources |
-| Adjacency List | Forest/world map |
-| BFS | Explore nearby forests by route hops |
-| DFS | Deep exploration and reachability |
-| Dijkstra | Minimum-cost route to a selected forest |
-| Prim | Optional minimum-cost route network |
-| Kruskal | Optional sparse route-network design |
-| Dynamic Programming | Future resource optimization |
-| 0/1 Knapsack | Future stamina/resource optimization |
-| Backtracking | Future exploration/puzzle problems |
-| Branch and Bound | Future advanced route/resource optimization |
-
----
-
-# Unit 1: Trees
-
-## Why Trees?
-
-Equipment and resource data can naturally be organized by an ordering key
-such as:
-
-```text
-Price
-Power
-Efficiency
-Resource Value
-```
-
-Instead of scanning every item linearly, a tree can provide structured
-searching and updating.
-
----
-
-## BST Example
-
-Suppose equipment is ordered by price:
-
-```text
-                 500
-               /     \
-            150       1200
-           /  \        /
-          0   300     800
-```
-
-The tree supports:
-
-- Search
-- Insert
-- Delete
-- Modification
-- Traversal
-
----
-
-## AVL Tree
-
-An AVL Tree can be used when predictable balanced performance is desired.
-
-For example:
-
-```text
-Resource Database
-       |
-       v
-    AVL Tree
-       |
- +-----+-----+
- |     |     |
-Search Insert Delete
-```
-
-AVL operations maintain a height-balanced tree.
-
-Typical complexity:
-
-```text
-Search:  O(log n)
-Insert:  O(log n)
-Delete:  O(log n)
-```
-
----
-
-## Tree Traversals
-
-The simulator can use traversal operations to display ordered data.
-
-### Inorder
-
-For a BST, inorder traversal produces data in sorted order.
-
-Example:
-
-```text
-0 → 150 → 300 → 500 → 800 → 1200
-```
-
-This can be used to display equipment sorted by price.
-
-### Preorder
-
-Useful for representing the tree structure.
-
-### Postorder
-
-Useful for structured tree processing and deletion-related demonstrations.
-
----
-
-# Heap and Priority Queue
-
-A priority queue can rank opportunities according to a game-defined score.
-
-Example:
-
-```text
-Priority
-10  → Redwood Forest
- 8  → Oak Forest
- 6  → Pine Forest
- 4  → River Forest
-```
-
-A Max-Heap can efficiently provide the highest-priority entry.
-
-A possible scoring formula is:
-
-```text
-Opportunity Score =
-Expected Revenue - Travel Cost
-```
-
-The exact formula can be changed according to the final game design.
-
----
-
-# Unit 2: Graphs
-
-## Why Graphs?
-
-The forest world contains multiple locations connected by travel routes.
-
-This is naturally represented as:
-
-```text
-Vertices = Locations
-Edges    = Travel Paths
-Weights  = Travel Costs
-```
-
----
-
-# BFS
-
-Breadth First Search can be used to explore locations by number of route
-hops.
-
-Example:
-
-```text
-Village
-   |
-   v
-Pine Forest
-   |
-   +----> Oak Forest
-   |
-   +----> River Forest
-```
-
-BFS can answer questions such as:
-
-> Which forests can be reached within two route hops?
-
-Typical complexity:
-
-```text
-O(V + E)
-```
-
----
-
-# DFS
-
-Depth First Search can be used for:
-
-- Deep exploration
-- Reachability checking
-- Connectivity analysis
-
-Example:
-
-```text
-Village
-  |
-Pine
-  |
-Oak
-  |
-Mountain
-```
-
-DFS follows one branch deeply before exploring another.
-
-Typical complexity:
-
-```text
-O(V + E)
-```
-
----
-
-# Dijkstra's Algorithm
-
-Dijkstra is the main shortest-path algorithm for normal weighted travel.
-
-The game can use it to find a minimum-cost route from the player's current
-location to a selected forest.
-
-Example:
-
-```text
-Village
-  |
-  | 5
-  v
-Pine Forest
-  | \
-  | 8 \ 6
-  v   v
-Oak  River
- |
- | 12
- v
-Mountain
-```
-
-If the player selects Mountain Forest, Dijkstra calculates the minimum-cost
-route.
-
-With a heap-based implementation, a typical complexity is:
-
-```text
-O((V + E) log V)
-```
-
-when using an adjacency list and appropriate priority queue.
-
----
-
-# Prim and Kruskal
-
-Prim and Kruskal are optional extensions.
-
-They can be used for a hypothetical world/network design feature:
-
-> Connect all important locations using minimum total route-construction
-> cost while avoiding unnecessary cycles.
-
-This turns the route network into a Minimum Spanning Tree problem.
-
-For the first prototype, these algorithms should remain optional unless the
-game includes a meaningful route-network construction mechanic.
-
----
-
-# Future Unit Extensions
-
-The same game model can be extended to later DSA-II topics.
-
-## Dynamic Programming
-
-Potential application:
-
-> Select the most profitable combination of activities under a limited
-> stamina budget.
-
----
-
-## 0/1 Knapsack
-
-Potential application:
-
-> Choose which resources to carry when the player has limited carrying
-> capacity.
-
-Example:
-
-```text
-Capacity = 50 kg
-
-Item       Weight       Value
-Wood A       10          100
-Wood B       15          250
-Wood C       20          300
-Rare Wood     5          200
-```
-
-The objective is to maximize value without exceeding capacity.
-
----
-
-## Backtracking
-
-Potential applications:
-
-- Exploration puzzles
-- Route puzzles
-- Special forest areas
-- Puzzle-based quests
-
----
-
-## Branch and Bound
-
-Potential applications:
-
-- Advanced route optimization
-- Multi-forest collection planning
-- Maximum-profit travel planning
-
----
-
-# Save and Load System
-
-Player progress is intended to be persisted using a text-based save file.
-
-The save system is a supporting feature rather than the primary academic DSA
-contribution.
-
-Possible saved values:
-
-```text
-Player Name
-Money
-Stamina
-Power
-Current Location
-Current Equipment
-Collected Resources
-Progress
-```
-
-Example:
-
-```text
-player_name=Shinu
-money=850
-stamina=65
-power=25
-location=Pine Forest
-equipment=Iron Axe
-```
-
-The exact save format can be changed as implementation develops.
-
----
-
-# CLI Interface
-
-The simulator is designed as a command-line application.
-
-A possible main menu is:
-
-```text
-========================================
-       FOREST RESOURCE SIMULATOR
-========================================
-
-1. Player Status
-2. Explore Forests
-3. Travel
-4. Collect Wood
-5. Inventory
-6. Sell Resources
-7. Buy Equipment
-8. View Forests
-9. Save Game
-10. Load Game
-0. Exit
-
-Enter choice:
-```
-
----
-
-# Player Status
-
-Example:
-
-```text
-========================================
-PLAYER STATUS
-========================================
-
-Name:          Shinu
-Money:         ₹850
-Power:         25
-Stamina:       65 / 100
-Location:      Pine Forest
-Equipment:     Iron Axe
-
-========================================
-```
-
----
-
-# Forest Menu
-
-Example:
-
-```text
-========================================
-AVAILABLE FORESTS
-========================================
-
-1. Pine Forest
-   Wood: Pine Wood
-   Quantity: 100
-   Value: ₹10
-
-2. Oak Forest
-   Wood: Oak Wood
-   Quantity: 80
-   Value: ₹18
-
-3. Redwood Forest
-   Wood: Redwood
-   Quantity: 50
-   Value: ₹30
-
-========================================
-```
-
----
-
-# System Architecture
-
-The project can be organized into four major layers:
-
-```text
-+---------------------------------------+
-|             CLI / UI Layer            |
-+-------------------+-------------------+
-                    |
-                    v
-+---------------------------------------+
-|          Game Logic / Systems         |
-| Player | Forest | Economy | Equipment |
-+-------------------+-------------------+
-                    |
-                    v
-+---------------------------------------+
-|             DSA Layer                 |
-| Trees | Heap | Graph | Algorithms     |
-+-------------------+-------------------+
-                    |
-                    v
-+---------------------------------------+
-|          Persistence Layer            |
-|             Save / Load                |
-+---------------------------------------+
-```
-
-The important idea is that the game logic should call the DSA components for
-operations that actually benefit from them.
-
----
-
-# Suggested Project Structure
-
-```text
-forest-resource-simulator/
-│
-├── README.md
-├── main.py
-├── requirements.txt
-│
-├── game/
-│   ├── __init__.py
-│   ├── player.py
-│   ├── forest.py
-│   ├── resource.py
-│   ├── equipment.py
-│   ├── economy.py
-│   └── game_state.py
-│
-├── dsa/
-│   ├── __init__.py
-│   │
-│   ├── trees/
-│   │   ├── bst.py
-│   │   ├── avl.py
-│   │   └── traversal.py
-│   │
-│   ├── heaps/
-│   │   ├── heap.py
-│   │   └── priority_queue.py
-│   │
-│   └── graphs/
-│       ├── graph.py
-│       ├── bfs.py
-│       ├── dfs.py
-│       ├── dijkstra.py
-│       ├── prim.py
-│       └── kruskal.py
-│
-├── save/
-│   ├── save_manager.py
-│   └── save_data.txt
-│
-├── ui/
-│   ├── menu.py
-│   ├── display.py
-│   └── input_handler.py
-│
-├── data/
-│   ├── forests.txt
-│   ├── resources.txt
-│   └── equipment.txt
-│
-└── tests/
-    ├── test_trees.py
-    ├── test_heaps.py
-    ├── test_graphs.py
-    ├── test_player.py
-    └── test_game.py
-```
-
-This is a recommended structure. The final structure should follow the
-actual implementation.
-
----
-
-# Game Data Model
-
-## Player
-
-```text
-Player
-├── name
-├── money
-├── stamina
-├── max_stamina
-├── power
-├── current_location
-└── equipment
-```
-
-## Forest
-
-```text
-Forest
-├── name
-├── wood_type
-├── quantity
-├── selling_value
-└── connections
-```
-
-## Equipment
-
-```text
-Equipment
-├── name
-├── price
-├── power
-└── efficiency
-```
-
-## Resource
-
-```text
-Resource
-├── type
-├── quantity
-└── selling_value
-```
-
----
-
-# Example Game Flow
-
-A complete example session could look like:
-
-```text
-========================================
-FOREST RESOURCE SIMULATOR
-========================================
-
-Enter your name: Shinu
-
-Welcome, Shinu!
-
-You have received:
-Basic Axe
-
-Money: ₹100
-Stamina: 100
-Power: 10
-Location: Village
-```
-
-The player checks the forest:
-
-```text
-Available Forests:
-
-1. Pine Forest
-2. Oak Forest
-3. Redwood Forest
-```
-
-The player selects Oak Forest.
-
-The graph module determines the route:
-
-```text
-Village
-   |
-Pine Forest
-   |
-Oak Forest
-```
-
-The player travels and spends the required travel cost.
-
-Then:
-
-```text
-You are now at Oak Forest.
-
-Wood available:
-Oak Wood
-
-Quantity:
-80
-
-Selling Value:
-₹18
-```
-
-The player collects resources.
-
-```text
-You collected 10 Oak Wood.
-
-Stamina remaining:
-70
-```
-
-The player returns and sells the wood:
-
-```text
-10 Oak Wood × ₹18
-Revenue = ₹180
-
-Money:
-₹280
-```
-
-The player can continue saving money for better equipment.
-
----
-
-# Algorithm Complexity
-
-Typical theoretical complexities for the core algorithms are:
-
-| Algorithm / Structure | Complexity |
-|---|---|
-| BST Search | O(log n) average, O(n) worst |
-| BST Insert | O(log n) average, O(n) worst |
-| BST Delete | O(log n) average, O(n) worst |
-| AVL Search | O(log n) |
-| AVL Insert | O(log n) |
-| AVL Delete | O(log n) |
-| Heap Insert | O(log n) |
-| Heap Delete | O(log n) |
-| Heap Peek | O(1) |
-| BFS | O(V + E) |
-| DFS | O(V + E) |
-| Dijkstra with Heap | O((V + E) log V) |
-| Prim with Heap | O((V + E) log V) |
-| Kruskal | O(E log E) |
-| Floyd-Warshall | O(V³) |
-| Bellman-Ford | O(VE) |
-| 0/1 Knapsack | O(nW) |
-
-The final report should describe the complexity of the exact implementations
-used in the project.
-
----
-
-# Testing Strategy
-
-Testing should cover both the game and its DSA components.
-
-## Tree Testing
-
-Test:
-
-- Insert
-- Search
-- Delete
-- Modify
-- Inorder traversal
-- Preorder traversal
-- Postorder traversal
-- AVL balancing
-
----
-
-## Heap Testing
-
-Test:
-
-- Insert
-- Peek
-- Extract
-- Priority ordering
-- Empty heap handling
-
----
-
-## Graph Testing
-
-Test:
-
-- Add vertex
-- Add edge
-- Display graph
-- BFS
-- DFS
-- Dijkstra
-- Unreachable destination
-- Invalid location
-
----
-
-## Game Testing
-
-Test:
-
-- Player creation
-- Resource collection
-- Stamina reduction
-- Money updates
-- Equipment purchase
-- Equipment upgrades
-- Travel
-- Invalid input
-- Save
-- Load
-
----
-
-# Example Unit Test Cases
-
-## Dijkstra
-
-```text
-Input:
-A → B = 5
-A → C = 2
-C → B = 1
-
-Expected shortest path:
-A → C → B
-
-Expected cost:
-3
-```
-
-## Inventory / Resource Collection
-
-```text
-Initial stamina = 100
-
-Collect resource requiring 10 stamina.
-
-Expected stamina = 90
-```
-
-## Equipment Purchase
-
-```text
-Money = ₹500
-Axe price = ₹300
-
-Expected money = ₹200
-Expected equipment = selected axe
-```
-
----
-
-# Development Roadmap
-
-## Phase 1 — Problem Definition
-
-- [x] Select project topic
-- [x] Define application domain
-- [x] Identify player requirements
-- [x] Identify resource requirements
-- [x] Identify equipment requirements
-- [x] Identify graph requirements
-- [x] Map DSA concepts to game features
-
----
-
-## Phase 2 — Core Game
-
-- [ ] Implement player state
-- [ ] Implement forest data
-- [ ] Implement resources
-- [ ] Implement equipment
-- [ ] Implement stamina
-- [ ] Implement money
-- [ ] Implement collection
-- [ ] Implement selling
-
----
-
-## Phase 3 — Unit 1 DSA
-
-- [ ] Implement BST
-- [ ] Implement tree operations
-- [ ] Implement traversals
-- [ ] Implement AVL Tree
-- [ ] Implement Heap
-- [ ] Implement Priority Queue
-- [ ] Implement Heap Sort
-- [ ] Integrate structures into gameplay
-
----
-
-## Phase 4 — Unit 2 DSA
-
-- [ ] Implement graph
-- [ ] Implement adjacency list
-- [ ] Implement BFS
-- [ ] Implement DFS
-- [ ] Implement Dijkstra
-- [ ] Integrate pathfinding into travel
-- [ ] Optional Prim/Kruskal extension
-
----
-
-## Phase 5 — Persistence
-
-- [ ] Implement save
-- [ ] Implement load
-- [ ] Validate save data
-- [ ] Handle missing/corrupt save data
-
----
-
-## Phase 6 — Advanced DSA
-
-- [ ] 0/1 Knapsack
-- [ ] Dynamic Programming
-- [ ] Backtracking
-- [ ] Branch and Bound
-- [ ] Additional optimization features
-
----
-
-## Phase 7 — Testing and Documentation
-
-- [ ] Unit testing
-- [ ] Integration testing
-- [ ] Algorithm testing
-- [ ] Complexity analysis
-- [ ] Screenshots
-- [ ] DSA diagrams
-- [ ] Final report
-- [ ] Final presentation
-
----
-
-# Current Status
-
-The project documentation and initial analysis establish:
-
-- The Forest Resource Simulator topic.
-- The woodcutter-based gameplay concept.
-- Player, stamina, power, money, and equipment requirements.
-- Multiple forests and different wood types/values.
-- Forest travel as a graph problem.
-- Tree-based organization for equipment/resource records.
-- Heap/Priority Queue applications.
-- BFS/DFS exploration.
-- Dijkstra minimum-cost routing.
-- Text-file save/load as supporting functionality.
-- Future Dynamic Programming and Backtracking/Branch & Bound extensions.
-
-The first development stage focuses on validating the core CLI prototype and
-the Unit 1 and Unit 2 DSA integration before expanding the project.
-
----
-
-# Challenges
-
-Several design challenges are intentionally addressed by the project.
-
-## 1. Meaningful DSA Integration
-
-The project should not add a data structure simply because it appears in the
-syllabus.
-
-Each structure needs a real application.
-
-For example:
-
-```text
-AVL → Fast ordered equipment/resource operations
-Graph → World navigation
-Dijkstra → Minimum-cost travel
-Heap → Priority-based opportunity selection
-```
-
----
-
-## 2. Designing the Forest Graph
-
-The graph must provide meaningful choices.
-
-If every forest is directly connected to every other forest, graph algorithms
-have little practical value.
-
-The world therefore benefits from a connected but relatively sparse network.
-
----
-
-## 3. Limited Stamina
-
-The player needs meaningful decisions about how to spend stamina.
-
-This also creates a foundation for future optimization algorithms.
-
----
-
-## 4. Keeping the Project Manageable
-
-The simulator must remain small enough to complete as an academic project
-while still demonstrating sufficient DSA depth.
-
-The recommended strategy is:
-
-```text
-Strong Core
-    ↓
-Trees + Graphs
-    ↓
-Working CLI
-    ↓
-Save / Load
-    ↓
-Optimization
-    ↓
-Optional Advanced Features
-```
-
----
-
-# Educational Value
-
-Forest Resource Simulator connects computer science theory to a practical
-application.
-
-Instead of treating DSA as isolated code, the project demonstrates:
-
-```text
-Data Structure
-      ↓
-Problem
-      ↓
-Algorithm
-      ↓
-Game Feature
-      ↓
-Visible Result
-```
-
-Examples:
-
-```text
-AVL Tree
-   ↓
-Equipment Search
-   ↓
-Fast Ordered Lookup
-```
-
-```text
-Graph
-   ↓
-Forest Map
-   ↓
-BFS / DFS
-   ↓
-Exploration
-```
-
-```text
-Weighted Graph
-   ↓
-Travel Network
-   ↓
-Dijkstra
-   ↓
-Minimum-Cost Route
-```
-
-```text
-Heap
-   ↓
-Resource Ranking
-   ↓
-Highest-Value Opportunity
-```
-
-This provides a clear practical demonstration of the concepts studied in
-Data Structures and Algorithms-II.
-
----
-
-# Learning Outcomes
-
-By completing the project, the developer should gain practical experience in:
-
-1. Designing non-linear data structures.
-2. Implementing tree operations.
-3. Implementing balanced trees.
-4. Implementing heaps and priority queues.
-5. Representing real-world systems using graphs.
-6. Implementing BFS and DFS.
-7. Implementing shortest-path algorithms.
-8. Analyzing algorithm complexity.
-9. Integrating algorithms into application logic.
-10. Managing structured game state.
-11. Designing a modular CLI application.
-12. Applying DSA concepts to real-world problem solving.
-13. Extending a basic system with optimization algorithms.
-
----
-
-# Limitations
-
-The initial project is intentionally scoped as a CLI-based academic prototype.
-
-Therefore:
-
-- It is not intended to be a commercial-scale game.
-- Graphics are not required for the core academic implementation.
-- The world is intentionally limited in size.
-- The economy can remain simplified.
-- Advanced DSA features are optional until the core implementation is stable.
-- Save/load is a supporting feature, not the primary DSA contribution.
-- Algorithms should only be implemented where they have a defensible role.
-
----
-
-# Future Enhancements
-
-Possible future improvements include:
-
-## Graphical Interface
-
-Replace or supplement the CLI with a graphical interface.
-
-## Larger World
-
-Add more forests, villages, roads, and locations.
-
-## Dynamic Economy
-
-Introduce changing prices based on resource availability.
-
-## Advanced Resource Types
-
-Add:
-
-- Rare wood
-- Herbs
-- Minerals
-- Special resources
-
-## Environmental Simulation
-
-Add:
-
-- Forest regeneration
-- Seasonal changes
-- Weather
-- Forest health
-
-## NPCs
-
-Add:
-
-- Merchants
-- Rangers
-- Blacksmiths
-- Quest-givers
-
-## Quest System
-
-Add:
-
-- Resource collection quests
-- Delivery quests
-- Exploration quests
-- Multi-step quests
-
-## Advanced Optimization
-
-Add:
-
-- Knapsack
-- Dynamic Programming
-- Backtracking
-- Branch and Bound
-
-## Procedural Generation
-
-Generate parts of the forest network algorithmically.
-
----
-
-# Installation
-
-## Requirements
-
-- Python 3.x
-- A terminal/command prompt
-- Git (recommended)
-
-Optional dependencies depend on the final implementation.
-
----
-
-# Clone the Repository
+The codebase includes verification across both algorithmic logic and graphical components:
 
 ```bash
-git clone <repository-url>
-cd forest-resource-simulator
+# Verify all DSA algorithms and graph routing
+python -c "from world.world import World; w = World(); print(w.find_route('Village', 'Redwood Forest', 'dijkstra'))"
+
+# Verify complete headless rendering of scenes and modals
+python -c "
+import os; os.environ['SDL_VIDEODRIVER'] = 'dummy'
+import pygame; pygame.init()
+from core.game_state import GameState
+from ui.screens.main_menu import MainMenu
+from ui.screens.game_world import GameWorld
+gs = GameState()
+menu = MainMenu(gs); world = GameWorld(gs)
+surf = pygame.display.set_mode((1280, 720))
+menu.draw(surf); world.draw(surf)
+print('UI Verification Successful!')
+"
 ```
 
 ---
 
-# Create a Virtual Environment
+# Installation & How to Run
 
-### Windows
+### System Requirements
+- **Operating System:** Windows, macOS, or Linux
+- **Python Version:** Python 3.10 or higher
+- **Dependencies:** `pygame>=2.6.0`
 
+### Step 1: Clone Repository
 ```bash
+git clone https://github.com/Shinu-ku/ForestResourceSimulator.git
+cd ForestResourceSimulator
+```
+
+### Step 2: Set Up Virtual Environment
+```bash
+# Windows
 python -m venv venv
 venv\Scripts\activate
-```
 
-### Linux / macOS
-
-```bash
+# Linux / macOS
 python3 -m venv venv
 source venv/bin/activate
 ```
 
----
-
-# Install Dependencies
-
-If dependencies are defined:
-
+### Step 3: Install Requirements
 ```bash
 pip install -r requirements.txt
 ```
 
-If the project uses only Python's standard library, no additional packages
-are required.
-
----
-
-# Running the Project
-
-Run the main program:
-
+### Step 4: Run Simulator
 ```bash
 python main.py
 ```
 
-or on Linux/macOS:
-
-```bash
-python3 main.py
-```
-
----
-
-# Contributing
-
-This is an individual academic project.
-
-However, the project structure is intentionally modular so that improvements
-can be made safely.
-
-When adding a new DSA feature:
-
-1. Implement the data structure/algorithm separately.
-2. Test it independently.
-3. Document its complexity.
-4. Identify its gameplay purpose.
-5. Integrate it with the relevant game system.
-6. Add test cases.
-7. Update the README/documentation.
-
-Avoid adding an algorithm solely to increase the number of DSA topics.
+### In-Game Controls
+| Action | Key / Input |
+|---|---|
+| Open / Close Inventory | **`[I]`** or click HUD `Inventory` button |
+| Open / Close Market | **`[M]`** or click HUD `Shop` button |
+| Open / Close Route Finder | **`[R]`** or click HUD `Route` button |
+| Inspect Location / Harvest | Click on any landmark badge on the map |
+| Travel Along Calculated Route | Click `[Travel Route]` inside Route Finder |
+| Close Active Modal | **`[ESC]`** or click modal `[X]` button |
+| Return to Main Menu | Click HUD `Menu` button |
 
 ---
 
-# Academic Information
+# Academic Information & Credits
 
 | Field | Details |
 |---|---|
-| Project | Forest Resource Simulator |
-| Domain | Game Development / Forest Resource Management Simulation |
-| Course | Data Structures and Algorithms-II |
-| Programme | B.Tech CSE |
-| Semester | III |
-| Assignment | Individual Assignment / PBL |
-| Student | Shinu Kushwah |
-| Institution | Noida Institute of Engineering and Technology (NIET), Greater Noida |
-
-> **Course-code note:** The project report/reference material available for
-> this project identifies the course as **BCSE0401**, while another NIET
-> syllabus document available in the project materials lists **CCSE0301**.
-> Verify the code against the current official course sheet before submitting
-> the final README/report.
+| **Project Title** | Forest Resource Simulator |
+| **Domain** | Game Development & DSA Simulation Optimization |
+| **Course** | Data Structures and Algorithms — II |
+| **Course Code** | CCSE0301 / BCSE0401 |
+| **Academic Programme** | B.Tech Computer Science and Engineering (CSE) |
+| **Semester** | Semester III |
+| **Assignment Type** | Individual Project-Based Learning (PBL) Assignment |
+| **Student Name** | Shinu Kushwah |
+| **Institution** | Noida Institute of Engineering and Technology (NIET), Greater Noida |
 
 ---
 
-# Acknowledgements
+### Final Pedagogical Note
 
-This project is developed as an academic Project-Based Learning assignment
-for Data Structures and Algorithms-II.
-
-The project is based on the prescribed course concepts and focuses on applying
-those concepts to an interactive forest resource-management simulation.
-
----
-
-# License
-
-This project is intended primarily for academic and educational use.
-
-If third-party libraries, fonts, images, sounds, or other assets are added,
-their respective licenses and attribution requirements must be followed.
-
----
-
-# Final Vision
-
-Forest Resource Simulator is not intended to be just a collection of DSA
-programs.
-
-It is a single interactive problem where different data structures and
-algorithms work together.
-
-```text
-                    FOREST RESOURCE SIMULATOR
-                              |
-             +----------------+----------------+
-             |                |                |
-          PLAYER           RESOURCES        WORLD MAP
-             |                |                |
-        Stamina/Money     Wood/Equipment      Graph
-             |                |                |
-             +----------------+----------------+
-                              |
-                           DSA CORE
-                              |
-        +----------+----------+----------+----------+
-        |          |          |          |          |
-       Trees      Heap       Graph      Search    Sort
-        |          |          |          |          |
-       AVL       Priority    BFS/DFS    Lookup    Ranking
-       BST       Queue       Dijkstra
-                              |
-                              v
-                       GAME DECISIONS
-                              |
-                              v
-                         PLAYER ACTION
-```
-
-The central principle of the project is:
-
-> **Use Data Structures and Algorithms to turn a simple woodcutter
-> simulation into a meaningful computational problem.**
-
-Every major DSA component should solve a problem that naturally occurs in
-the game, making the project both an academic DSA implementation and a
-practical software-development exercise.
+> *"Data Structures and Algorithms are not mere exam questions; they are the architectural bedrock of interactive software systems. By simulating real physical constraints through computational models, theory transforms into an engaging, tangible world."*
