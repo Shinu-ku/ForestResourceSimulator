@@ -74,3 +74,8 @@ class Game:
     def run_gui(self):
         from gui.app import run
         run(self)
+
+
+if __name__ == "__main__":
+    Game().run_gui()
+
