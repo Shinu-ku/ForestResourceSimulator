@@ -1,0 +1,24 @@
+{
+  "slot": 1,
+  "timestamp": "27 Oct 2026, 23:18",
+  "player": {
+    "name": "Explorer",
+    "level": 1,
+    "xp": 40,
+    "max_xp": 200,
+    "money": 77,
+    "max_stamina": 100,
+    "stamina": 92,
+    "power": 2,
+    "day": 1,
+    "time_of_day": "Evening",
+    "current_location": "Ranger Station",
+    "equipment": "Basic Axe",
+    "inventory": {
+      "pine_wood": 6,
+      "berries": 9,
+      "oak_wood": 1,
+      "redwood_wood": 1
+    }
+  }
+}
